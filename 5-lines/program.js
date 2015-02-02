@@ -3,15 +3,12 @@ var split = require('split');
 
 var count = 0;
 var tr = through(function(chunk) {
-  count++;
   var string = chunk.toString();
-
-  string = count % 2 ? string.toUpperCase() : string.toLowerCase();
+  string = count % 2 ? string.toUpperCase() + '\n' : string.toLowerCase() + '\n';
+  // new line is important!
 
   this.queue(string);
-  // return string;
-}, function() {
-  this.queue(null);
+  count++;
 });
 
 process.stdin
