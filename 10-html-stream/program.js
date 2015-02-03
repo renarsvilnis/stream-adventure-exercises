@@ -7,5 +7,5 @@ process.stdin
   .pipe(tr);
 
 var stream = tr.select('.load').createStream();
-
+console.log(stream);
 stream.pipe(process.stdout);
