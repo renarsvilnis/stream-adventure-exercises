@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "split": "^0.3.3",
-    "stream-combiner": "^0.2.1"
+    "stream-combiner": "^0.2.1",
+    "through": "^2.3.6"
   }
 }
