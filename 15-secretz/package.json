@@ -1,0 +1,15 @@
+{
+  "name": "15-secretz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "program.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Renārs Vilnis",
+  "license": "MIT",
+  "dependencies": {
+    "tar": "^1.0.3",
+    "through": "^2.3.6"
+  }
+}

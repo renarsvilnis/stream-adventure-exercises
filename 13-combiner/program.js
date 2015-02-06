@@ -4,36 +4,40 @@ var through = require('through');
 var zlib = require('zlib');
 
 module.exports = function() {
-
   var row = null;
-  var list = {};
+
+  var write = function(entry) {
+
+    if(!entry || entry.length === 0)
+      return;
+
+    entry = JSON.parse(entry);
+
+    if(entry.type == 'genre') {
+
+      if(row)
+        this.queue(JSON.stringify(row) + '\n');
+
+      row = {
+        name: entry.name,
+        books: []
+      };
+
+    } else if(entry.type == 'book') {
+      row.books.push(entry.name);
+    }
+
+  };
+
+  var end = function() {
+    if(row)
+      this.queue(JSON.stringify(row) + '\n');
+    this.queue(null);
+  };
 
   return combine(
-    process.stdin,
     split(),
-    through(function(entry) {
-
-      if(entry.type == 'genre') {
-        // reset row
-        if(typeof row != 'undefined') {
-          this.queue(row);
-          row = null;
-        }
-
-        row = {
-          name: entry.name,
-          books: []
-        };
-
-      } else {
-        row.books.push(entry.name);
-      }
-
-    }, function() {
-      if(typeof row != 'undefined')
-        this.queue(row);
-    }),
-    zlib.createGzip(),
-    process.stdout
+    through(write, end),
+    zlib.createGzip()
   );
 };
